@@ -45,7 +45,7 @@ app.post('/api/notes', (req, res) => {
         // adds newNote to all other notes
         db.push(newNote)
         // writes new db that includes the new note with the old notes
-        fs.writeToFile('./db/db.json', JSON.stringify(db), (err) => {
+        fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
             if (err) {
                 console.error(err)
             }
@@ -63,7 +63,7 @@ app.get('*', (req, res) => {
     
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
-// PORT listener enable the server.js to reveive incoming url requests
+// PORT listener enable the server.js to reveive all incoming url requests
 app.listen(PORT, () => {
     console.log(`app listening on port ${PORT}`)
 });
