@@ -2,32 +2,27 @@
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const api = require('/index.js');
+// const api = require('/index.js');
 const { randomUUID } = require('crypto');
+const db = require('./db/db.json');
 
 const app = express();
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 // middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({extended: true }));
-app.use('/api', api);
+// app.use('/api', api);
 
 // middleware to point to the public directory
 app.use(express.static('public'));
-
-// GET route for notes from client to db
-app.get('/', (req, res) => {
-    
-    res.sendFile(__dirmane = '/public/notes.html')
-})
 
 // POST route for notes to db to client
 
 app.get('/notes', (req, res) => {
     
-    res.sendFile(__dirname + 'public/notes.html')
+    res.sendFile(path.join(__dirname, 'public/notes.html'))
 })
 
 app.get('/api/notes', (req, res) => {
@@ -42,7 +37,7 @@ app.post('/api/notes', (req, res) => {
         const newNote = {
             title: title,
             text: text,
-            note_id randomUUID(),
+            note_id: randomUUID(),
         };
 
         const response = {
@@ -58,7 +53,20 @@ app.post('/api/notes', (req, res) => {
                 console.error(err)
             }
         })
-    }
-}
 
-app.listen(PORT);
+        console.log(db);
+        res.send(db);
+
+    }else {
+        res.send('error in posting note');
+    }
+})
+
+app.get('*', (req, res) => {
+    
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+})
+
+app.listen(PORT, () => {
+    console.log(`app listening on port ${PORT}`)
+});
