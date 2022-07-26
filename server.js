@@ -19,15 +19,17 @@ app.use(express.static('public'));
 // when url /notes is received then app.get responds with sendFile 
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/notes.html'))
+    return;
 })
-// ahen url api/notes is received this responds with existin notes
+// when url api/notes is received this responds with existing notes
 app.get('/api/notes', (req, res) => {
     res.json(db);
+    return;
 })
 // POST route for notes to db from client
 app.post('/api/notes', (req, res) => {
     // constructs message body
-    const { title, text } = req.body;
+    const { title, text, } = req.body;
     // checks to see if both title and text are present. if so creates new note
     if ( title && text ) {
         const newNote = {
@@ -40,10 +42,10 @@ app.post('/api/notes', (req, res) => {
             status: 'success',
             body: newNote,
         };
-        // sends back response to client confirming newNote
-        res.json(response)
-        // adds newNote to all other notes
+         // adds newNote to all other notes
         db.push(newNote)
+         // sends back response to client confirming newNote
+        res.json(response)
         // writes new db that includes the new note with the old notes
         fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
             if (err) {
@@ -54,14 +56,19 @@ app.post('/api/notes', (req, res) => {
         console.log(db);
         res.send(db);
 
+
+
     }else {
         res.send('error in posting note');
     }
+    return;
 })
 // catch all * send the response to notes.html
 app.get('*', (req, res) => {
     
     res.sendFile(path.join(__dirname, '/public/notes.html'))
+
+    return;
 })
 // PORT listener enable the server.js to reveive all incoming url requests
 app.listen(PORT, () => {
