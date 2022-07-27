@@ -30,7 +30,24 @@ This application is intended to give the user a handy note taking tool. The note
 
  ## Code Snippet:
 
+ ```
 
+ // when url /notes is received then app.get responds with sendFile 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/notes.html'))
+    return;
+})
+// when url api/notes is received this responds with existing notes
+app.get('/api/notes', (req, res) => {
+    res.json(db);
+    return;
+})
+
+ ```
+
+ ## Contact me:
+
+ [LinkedIn](linkedin.com/in/jamesbennett1here)
 
 
 
