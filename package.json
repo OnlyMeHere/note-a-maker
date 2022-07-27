@@ -1,18 +1,30 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Notes to self made here using this handy little application.",
   "main": "server.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "crypto": "^1.0.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnlyMeHere/note-a-maker.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/OnlyMeHere/note-a-maker/issues"
+  },
+  "homepage": "https://github.com/OnlyMeHere/note-a-maker#readme"
 }

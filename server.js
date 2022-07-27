@@ -4,10 +4,15 @@ const express = require('express');
 const path = require('path');
 const { randomUUID } = require('crypto');
 const db = require('./db/db.json');
+const http = require('http');
 
 const app = express();
 
-const PORT = 3001;
+let noteId = [];
+let deleteNote = [];
+
+const PORT = process.env.PORT || 3001;
+
 
 // middleware for parsing JSON and urlencoded form data
 app.use(express.json());
@@ -17,7 +22,7 @@ app.use(express.urlencoded({extended: true }));
 app.use(express.static('public'));
 
 // when url /notes is received then app.get responds with sendFile 
-app.get('/notes', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/notes.html'))
     return;
 })
@@ -47,22 +52,39 @@ app.post('/api/notes', (req, res) => {
          // sends back response to client confirming newNote
         res.json(response)
         // writes new db that includes the new note with the old notes
-        fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
+        fs.writeFile('./db/db.json', JSON.stringify(db, null, 4), (err) => {
             if (err) {
                 console.error(err)
             }
         })
         // sends the note file back to db modified or not
         console.log(db);
-        res.send(db);
 
 
 
     }else {
-        res.send('error in posting note');
+        res.send(db);
     }
     return;
 })
+// delete note logic here
+app.delete('/api/notes:id', (req, res) => {
+    
+    let deleteNote = db.find(c => c.id === parseInt(req.params.id));
+
+    const newDb = db.filter( JSON.parse.body.id !== c.id );
+
+    fs.writeFile('./db/db.json', JSON.stringify(newDb, null, 4), (err) => {
+        if (err) {
+            console.error(err)
+        }
+    
+    });
+
+    // res.status(404).send('Note not found');
+    res.json(db);
+
+});
 // catch all * send the response to notes.html
 app.get('*', (req, res) => {
     
